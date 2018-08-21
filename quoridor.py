@@ -183,7 +183,7 @@ class Quoridor(object):
             # observation = self.state()
             # print("game over !winner is player" + str(winner))
 
-        return done
+        return done ,winner
 
     # 判断游戏是否结束
     def game_end(self):
