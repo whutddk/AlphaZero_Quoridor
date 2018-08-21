@@ -9,7 +9,7 @@ class Quoridor(object):
     def __init__(self, safe=False):
         self.safe = safe
 
-        self.action_space = 140  # 140 possible actions in total
+        self.action_space = 140  # 140 possible actions in total  # 这里要改
         self.n_players = 2
         self.players = [1, 2]  # 两个玩家
         self.reset()
@@ -32,8 +32,8 @@ class Quoridor(object):
 
         # Initialize Player Locations
         self._positions = {
-            1: 4,
-            2: 76
+            1: 4,           # 这里要改
+            2: 76           # 这里要改
         }
 
         self._DIRECTIONS = {
@@ -42,9 +42,9 @@ class Quoridor(object):
             'NE': 8, 'NW': 9, 'SE': 10, 'SW': 11
         }
         self.N_DIRECTIONS = 12
-        self.N_TILES = 81
-        self.N_ROWS = 9
-        self.N_INTERSECTIONS = 64
+        self.N_TILES = 81               # 这里要改
+        self.N_ROWS = 9                 # 这里要改
+        self.N_INTERSECTIONS = 64       # 这里要改
 
         # There are 64 possible intersection
         # Horizontal Walls - 1
@@ -52,8 +52,8 @@ class Quoridor(object):
         # Vertical Wall - -1
         self._intersections = np.zeros(64)
 
-        self._player1_walls_remaining = 10
-        self._player2_walls_remaining = 10
+        self._player1_walls_remaining = 10      # 这里要改
+        self._player2_walls_remaining = 10      # 这里要改
 
     def state(self):
         """Returns a set of 9x9 planes that represent the game state.
@@ -67,35 +67,35 @@ class Quoridor(object):
         """
         player1_position_plane = self.tiles.copy()
         player1_position_plane[self._positions[1]] = 1
-        player1_position_plane = player1_position_plane.reshape([9, 9])
+        player1_position_plane = player1_position_plane.reshape([9, 9])     # 这里要改
 
         player2_position_plane = self.tiles.copy()
         player2_position_plane[self._positions[2]] = 1
-        player2_position_plane = player2_position_plane.reshape([9, 9])
+        player2_position_plane = player2_position_plane.reshape([9, 9])     # 这里要改
 
-        player1_walls_plane = np.zeros([10, 9, 9])
-        player2_walls_plane = np.zeros([10, 9, 9])
+        player1_walls_plane = np.zeros([10, 9, 9])              # 这里要改
+        player2_walls_plane = np.zeros([10, 9, 9])              # 这里要改
 
         player1_walls_plane[self._player1_walls_remaining - 1, :, :] = 1
         player2_walls_plane[self._player2_walls_remaining - 1, :, :] = 1
 
         # Set the wall planes
         vertical_walls = np.pad(
-            np.int8(self._intersections == -1).reshape([8, 8]),
+            np.int8(self._intersections == -1).reshape([8, 8]),     # 这里要改
             (0, 1),
             mode='constant',
             constant_values=0
         )
 
         horizontal_walls = np.pad(
-            np.int8(self._intersections == 1).reshape([8, 8]),
+            np.int8(self._intersections == 1).reshape([8, 8]),      # 这里要改
             (0, 1),
             mode='constant',
             constant_values=0
         )
 
         no_walls = np.pad(
-            np.int8(self._intersections == 0).reshape([8, 8]),
+            np.int8(self._intersections == 0).reshape([8, 8]),      # 这里要改
             (0, 1),
             mode='constant',
             constant_values=0
@@ -113,7 +113,7 @@ class Quoridor(object):
 
             # print('Shape is {shape}'.format(shape=state.shape))
 
-            current_player_plane = np.zeros([1, 9, 9])
+            current_player_plane = np.zeros([1, 9, 9])                  # 这里要改
             state = np.vstack([state, player1_walls_plane, player2_walls_plane, current_player_plane])
 
         if self.current_player == 2:
@@ -125,14 +125,14 @@ class Quoridor(object):
                 player1_position_plane,
             ])
 
-            current_player_plane = np.ones([1, 9, 9])
+            current_player_plane = np.ones([1, 9, 9])                       # 这里要改
             state = np.vstack([state, player2_walls_plane, player1_walls_plane, current_player_plane])
             # print(state.shape)
         return state
 
     def load_state(self, state):
         """Mutates the Quoridor object to match a given state"""
-        current_player = state[-1] == np.zeros([9, 9])
+        current_player = state[-1] == np.zeros([9, 9])                  # 这里要改
         # TODO: Implement the rest of this
 
     def actions(self):
@@ -193,10 +193,10 @@ class Quoridor(object):
     def has_a_winner(self):
         game_over = False
         winner = None
-        if self._positions[2] < 9:
+        if self._positions[2] < 9:          # 这里要改
             winner = 2
             game_over = True
-        elif self._positions[1] > 71:
+        elif self._positions[1] > 71:       # 这里要改
             winner = 1
             game_over = True
         return game_over, winner
@@ -204,9 +204,9 @@ class Quoridor(object):
     # 获取奖励
     def _get_rewards(self):
         done = True
-        if self._positions[2] < 9:
+        if self._positions[2] < 9:          # 这里要改
             rewards, done = (1, -1)
-        elif self._positions[1] > 71:
+        elif self._positions[1] > 71:       # 这里要改
             rewards = (-1, 1)
         else:
             rewards = (0, 0)
@@ -216,39 +216,39 @@ class Quoridor(object):
     # 处理棋子动作
     def _handle_pawn_action(self, action, player):
         if action == self._DIRECTIONS['N']:
-            self._positions[player] += 9
+            self._positions[player] += 9        # 这里要改
         elif action == self._DIRECTIONS['S']:
-            self._positions[player] -= 9
+            self._positions[player] -= 9        # 这里要改
         elif action == self._DIRECTIONS['E']:
-            self._positions[player] += 1
+            self._positions[player] += 1        # 这里要改
         elif action == self._DIRECTIONS['W']:
-            self._positions[player] -= 1
+            self._positions[player] -= 1        # 这里要改
         elif action == self._DIRECTIONS['NN']:
-            self._positions[player] += 18
+            self._positions[player] += 18       # 这里要改
         elif action == self._DIRECTIONS['SS']:
-            self._positions[player] -= 18
+            self._positions[player] -= 18       # 这里要改
         elif action == self._DIRECTIONS['EE']:
-            self._positions[player] += 2
+            self._positions[player] += 2        # 这里要改
         elif action == self._DIRECTIONS['WW']:
-            self._positions[player] -= 2
+            self._positions[player] -= 2        # 这里要改
         elif action == self._DIRECTIONS['NW']:
-            self._positions[player] += 8
+            self._positions[player] += 8        # 这里要改
         elif action == self._DIRECTIONS['NE']:
-            self._positions[player] += 10
+            self._positions[player] += 10       # 这里要改
         elif action == self._DIRECTIONS['SW']:
-            self._positions[player] -= 10
+            self._positions[player] -= 10       # 这里要改
         elif action == self._DIRECTIONS['SE']:
-            self._positions[player] -= 8
+            self._positions[player] -= 8        # 这里要改
         else:
             raise ValueError("Invalid Pawn Action: {action}".format(action=action))
 
     # 处理挡板动作
     def _handle_wall_action(self, action):
         # Action values less than 64 are horizontal walls
-        if action < 64:
+        if action < 64:                                 # 这里要改
             self._intersections[action] = 1
         # Action values above 64 are vertical walls
-        else:
+        else:                                           # 这里要改
             self._intersections[action - 64] = -1
 
         if self.current_player == 1:
@@ -274,7 +274,7 @@ class Quoridor(object):
         VERTICAL = -1
 
         valid = []
-        # 判断对面棋子是否相邻
+        # 判断对面棋子是否相邻                                    # 这里要改
         opponent_north = location == opponent_loc - 9
         opponent_south = location == opponent_loc + 9
         opponent_east = location == opponent_loc - 1
@@ -357,9 +357,9 @@ class Quoridor(object):
         """Gets the four intersections for a given tile."""
         location_row = current_tile // self.N_ROWS
         # 判断棋子是否在四周边界
-        n_border = current_tile > 71
+        n_border = current_tile > 71                    # 这里要改
         e_border = current_tile % 9 == 8
-        s_border = current_tile < 9
+        s_border = current_tile < 9                     # 这里要改
         w_border = current_tile % 9 == 0
 
         if n_border:
