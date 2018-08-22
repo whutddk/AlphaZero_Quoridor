@@ -17,7 +17,7 @@ class TrainPipeline(object):
         self.learn_rate = 2e-2
         self.lr_multiplier = 1.0  # 适应性调节学习速率
         self.temp = 0.5
-        self.n_playout = 50
+        self.n_playout = 20
         self.c_puct = 5
         self.buffer_size = 10000
         self.batch_size = 1  # 取1 测试ing
@@ -112,5 +112,9 @@ class TrainPipeline(object):
 
 
 if __name__ == '__main__':
-    training_pipeline = TrainPipeline('current_policy')
-    training_pipeline.run()
+    while 1:
+        try:
+            training_pipeline = TrainPipeline('current_policy')
+            training_pipeline.run()
+        except:
+            pass
