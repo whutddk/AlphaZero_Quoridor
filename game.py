@@ -10,7 +10,7 @@ import numpy as np
 import time
 import argparse
 
-# Define Colors
+# Define Colors 视图的颜色定义 RGB
 BLACK = (0, 0, 0)
 WHITE = (240, 255, 240)
 LIGHTBROWN = (222, 184, 135)
