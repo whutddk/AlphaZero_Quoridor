@@ -22,7 +22,7 @@ class TrainPipeline(object):
 		self.buffer_size = 10000
 		self.batch_size = 1  # 取1 测试ing
 		self.data_buffer = deque(maxlen=self.buffer_size)
-		self.play_batch_size = 1
+		# self.play_batch_size = 1
 		self.epochs = 5
 		self.kl_targ = 0.02
 		# self.check_freq = 2
@@ -52,15 +52,17 @@ class TrainPipeline(object):
 	#         extend_data.append((equi_state, np.flipud(equi_mcts_prob).flatten(), winner))
 	#     return extend_data
 
-	def collect_selfplay_data(self, n_games=1):
+	def collect_selfplay_data(self):
 		"""收集训练数据"""
-		for i in range(n_games):
-			winner, play_data = self.game.start_self_play(self.mcts_player, temp=self.temp)  # 进行自博弈
-			play_data = list(play_data)[:]
-			self.episode_len = len(play_data)
-			# 数据增强
-			# play_data = self.get_equi_data(play_data)
-			self.data_buffer.extend(play_data)
+
+		winner, play_data = self.game.start_self_play(self.mcts_player, temp=self.temp)  # 进行自博弈
+		
+
+		play_data = list(play_data)[:]
+		self.episode_len = len(play_data)
+		# 数据增强
+		# play_data = self.get_equi_data(play_data)
+		self.data_buffer.extend(play_data)
 
 	def policy_update(self):
 		"""训练策略价值网络"""
@@ -94,18 +96,17 @@ class TrainPipeline(object):
 	def run(self):
 		"""训练"""
 		try:
-			# for i in range(self.game_batch_num):
-			self.collect_selfplay_data(self.play_batch_size)
-			print("batch i:{}, episode_len:{}".format(i + 1, self.episode_len))
+
+			self.collect_selfplay_data()
+
 			if len(self.data_buffer) > self.batch_size:
 				loss, entropy = self.policy_update()
 				print("LOSS:",loss)
 				# 保存loss
 				with open('loss.txt', 'a') as f:
 					f.writelines(str(loss) + '\n')
-				# if (i + 1) % self.check_freq == 0:
-				print("current self-play batch: {}".format(i + 1))
-				# win_ratio = self.policy_evaluate()
+
+				print ("save")
 				self.policy_value_net.save_model('current_policy')  # 保存模型
 		except KeyboardInterrupt:
 			print('\n\rquit')
