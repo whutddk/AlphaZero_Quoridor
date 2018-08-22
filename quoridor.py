@@ -35,8 +35,8 @@ class Quoridor(object):
 
 		# Initialize Player Locations
 		self._positions = {
-			1: 4,           # 这里要改
-			2: 76           # 这里要改
+			1: 3,           # 这里要改
+			2: 45           # 这里要改
 		}
 
 		self._DIRECTIONS = {
@@ -299,7 +299,7 @@ class Quoridor(object):
 		# 判断西面没有竖直挡板和对面棋子
 		w = intersections['NW'] != VERTICAL and intersections['SW'] != VERTICAL and not opponent_west
 		# 向北走，两种情况：1，按照上面的判断可走 2，虽到边界但是再走可以获胜
-		if n or (player == 1 and current_row == 8): valid.append(self._DIRECTIONS['N'])
+		if n or (player == 1 and current_row == 6): valid.append(self._DIRECTIONS['N'])
 		# 同理
 		if s or (player == 2 and current_row == 0): valid.append(self._DIRECTIONS['S'])
 		if e: valid.append(self._DIRECTIONS['E'])
@@ -461,7 +461,7 @@ class Quoridor(object):
 			if self._intersections[ix - 6] == -1:
 				return False
 
-		if row != 7:
+		if row != 5:
 			if self._intersections[ix + 6] == -1:
 				return False
 
