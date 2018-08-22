@@ -551,7 +551,7 @@ class Quoridor(object):
 		dash = '-'
 		none = ''
 
-		grid = [['{dash:4}'.format(dash=dash) for i in range(9)] for i in range(7)]
+		grid = [['{dash:4}'.format(dash=dash) for i in range(7)] for i in range(7)]
 		i_reshaped = self._intersections.reshape([6, 6])
 
 		grid[player1_row][player1_col] = '{x:4}'.format(x=x)
