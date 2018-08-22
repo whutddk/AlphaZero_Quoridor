@@ -54,8 +54,8 @@ def main():
 	MCTS_Alpha = A_Player(PolicyValueNet().policy_value_fn, c_puct=5, n_playout=30, is_selfplay=0)
 	MCTS_Pure = B_Player(c_puct=5, n_playout=50)  # 50层400秒
 
-	player_types = {1: 'human', 2: 'computer'}
-	players = {1: human1, 2: MCTS_Alpha}
+	player_types = {1: 'computer', 2: 'human'}
+	players = {1: MCTS_Alpha, 2: human1}
 
 			# pygame.quit()
 
