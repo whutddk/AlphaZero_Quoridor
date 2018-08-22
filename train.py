@@ -14,10 +14,10 @@ class TrainPipeline(object):
         # 棋盘参数
         self.game = Quoridor()
         # 训练参数
-        self.learn_rate = 2e-3
+        self.learn_rate = 2e-2
         self.lr_multiplier = 1.0  # 适应性调节学习速率
         self.temp = 0.1
-        self.n_playout = 400
+        self.n_playout = 10
         self.c_puct = 5
         self.buffer_size = 10000
         self.batch_size = 1  # 取1 测试ing
