@@ -45,11 +45,6 @@ def text(screen, text, position1=2, position2=0.6, color=BLUE):
 
 
 def main():
-	# parser = argparse.ArgumentParser()
-	# parser.add_argument("--player_type", type=int, default=1,
-	# 					help="palyer type you want to fight,1 is human,2 is computer")
-	# parser.add_argument("--computer_type", type=int, default=0, help="computer type,1 is Alpha MCTS,2 is pure MCTS")
-	# args = parser.parse_args()
 
 	game = Quoridor()
 	human1 = ManualPygameAgent('Kurumi')
@@ -57,19 +52,9 @@ def main():
 	MCTS_Alpha = A_Player(PolicyValueNet().policy_value_fn, c_puct=5, n_playout=30, is_selfplay=0)
 	MCTS_Pure = B_Player(c_puct=5, n_playout=50)  # 50层400秒
 
-	# if args.player_type == 1:
-	# 	player_types = {1: 'human', 2: 'human'}
-	# 	players = {1: human1, 2: human2}
-	# 	if args.computer_type == 0:
-	# 		pass
-	# elif args.player_type == 2:
 	player_types = {1: 'human', 2: 'computer'}
-		# if args.computer_type == 1:
 	players = {1: human1, 2: MCTS_Alpha}
-		# elif args.computer_type == 2:
-		# 	players = {1: human1, 2: MCTS_Pure}
-		# elif args.computer_type == 0:
-		# 	print("Set computer type to 1 or 2 for choosing computer!")
+
 			# pygame.quit()
 
 	# game.load(player1, player2)
