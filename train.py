@@ -113,5 +113,5 @@ class TrainPipeline(object):
 
 
 if __name__ == '__main__':
-	training_pipeline = TrainPipeline()
+	training_pipeline = TrainPipeline("current_policy")
 	training_pipeline.run()
