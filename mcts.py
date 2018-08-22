@@ -178,7 +178,7 @@ class MCTSPlayer(object):
 			# 如果是自博弈的话
 			if self._is_selfplay:
 				# 为了增加探索，保证每个节点都有可能被选中，加入狄利克雷噪声
-				move = np.random.choice(acts, p=0.5 * probs + 0.5 * np.random.dirichlet(0.3 * np.ones(len(probs))))
+				move = np.random.choice(acts, p=0.1 * probs + 0.9 * np.random.dirichlet(0.3 * np.ones(len(probs))))
 				self.mcts.update_with_move(move)  # 更新根节点，并且复用子树
 			else:
 				# 如果采用默认的temp = le-3，几乎相当于选择最高概率的落子
