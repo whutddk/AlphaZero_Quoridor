@@ -74,6 +74,9 @@ def main():
 	valid_actions = game.actions()
 	done = False
 	winner = None
+
+	states, mcts_probs, current_players = [], [], []       # 初始化需要保存的信息，胜负情况要在模拟结束时保存
+
 	t1 = time.time()
 	while not done:
 		player_moved = False
@@ -95,10 +98,10 @@ def main():
 					if collide.collidepoint(touch):
 						pygame.draw.rect(screen, LIGHTBROWN, wall)
 						break
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
+			for event in pygame.event.get():		#等待事件
+				if event.type == pygame.QUIT:		#退出事件
 					done = True
-				elif event.type == pygame.MOUSEBUTTONDOWN:
+				elif event.type == pygame.MOUSEBUTTONDOWN:		#鼠标点击事件
 					touch = pygame.mouse.get_pos()
 					# This is messy - fix later
 					for rect, action in pawn_moves:
@@ -112,6 +115,11 @@ def main():
 					if player_moved:
 						real_action = players[game.current_player].choose_action()
 						# move_history.append(real_action)
+						
+						states.append(game.state())
+						mcts_probs.append(0)
+						current_players.append(game.current_player)
+						
 						done, winner = game.step(real_action)
 						render(game, screen)  # 渲染游戏
 						break
@@ -126,6 +134,11 @@ def main():
 						if player_moved == True:
 							real_action = players[game.current_player].choose_action()
 							# move_history.append(real_action)
+							
+							states.append(game.state())
+							mcts_probs.append(0)
+							current_players.append(game.current_player)
+							
 							done, winner = game.step(real_action)
 							render(game, screen)  # 渲染游戏
 							break
@@ -140,10 +153,16 @@ def main():
 			print("computer %s thinking..." % str(game.current_player))
 			tic = time.time()
 			# real_action = np.random.choice(valid_actions)
-			real_action = players[game.current_player].choose_action(game)
+			real_action,move_probs = players[game.current_player].choose_action(game,temp = 0.8,return_prob = 1)
 			# move_history.append(real_action)
 			toc = time.time()
 			print("MCTS choose action:", real_action, "  ,spend %s seconds" % str(toc - tic))
+			
+
+			states.append(game.state())
+			mcts_probs.append(move_probs)
+			current_players.append(game.current_player)
+
 			done, winner = game.step(real_action)
 			# render(game, screen)
 			# valid_actions = game.valid_actions
@@ -158,6 +177,12 @@ def main():
 	print("total time :", t2 - t1)
 	pygame.quit()
 
+	winners_z = np.zeros(len(current_players))
+	if winner != -1:
+		winners_z[np.array(current_players) == winner] = 1.0        # 当前玩家的所有落子的z都设为1
+		winners_z[np.array(current_players) != winner] = -1.0       # 对手玩家的所有落子的z都设为-1
+
+	return winner, zip(states, mcts_probs, winners_z)
 
 def draw_game(game, screen, valid_actions):
 	# Calculate valid action tiles
@@ -328,6 +353,5 @@ def draw_load_screen(screen):
 
 
 if __name__ == '__main__':
-	training_pipeline = TrainPipeline()
 	main()
 

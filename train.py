@@ -7,7 +7,7 @@ from quoridor import Quoridor
 from policy_value_net import PolicyValueNet
 
 from mcts import MCTSPlayer
-
+import game
 
 class TrainPipeline(object):
 	def __init__(self, init_model=None):
@@ -55,8 +55,8 @@ class TrainPipeline(object):
 	def collect_selfplay_data(self):
 		"""收集训练数据"""
 
-		winner, play_data = self.game.start_self_play(self.mcts_player, temp=self.temp)  # 进行自博弈
-		
+		# winner, play_data = self.game.start_self_play(self.mcts_player, temp=self.temp)  # 进行自博弈
+		winner, play_data = game.main()
 
 		play_data = list(play_data)[:]
 		self.episode_len = len(play_data)
