@@ -117,7 +117,7 @@ def main():
 						# move_history.append(real_action)
 						
 						states.append(game.state())
-						mcts_probs.append(0)
+						mcts_probs.append(0.9)
 						current_players.append(game.current_player)
 						
 						done, winner = game.step(real_action)
@@ -136,7 +136,7 @@ def main():
 							# move_history.append(real_action)
 							
 							states.append(game.state())
-							mcts_probs.append(0)
+							mcts_probs.append(0.9)
 							current_players.append(game.current_player)
 							
 							done, winner = game.step(real_action)
