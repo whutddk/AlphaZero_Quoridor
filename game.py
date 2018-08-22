@@ -86,6 +86,8 @@ def main():
 		# text(screen, "player1 move:", position1=2, position2=0.8, color=BLUE)
 
 		valid_walls = [wall for wall in walls if wall[2] in valid_actions]
+
+		#玩家行动
 		if player_types[game.current_player] == 'human':
 			touch = pygame.mouse.get_pos()
 			for wall, collides, _ in valid_walls:
@@ -133,7 +135,7 @@ def main():
 
 		valid_actions = game.actions()
 
-		# 待改
+		# 待改 计算机行动
 		if player_types[game.current_player] == 'computer':
 			print("computer %s thinking..." % str(game.current_player))
 			tic = time.time()
