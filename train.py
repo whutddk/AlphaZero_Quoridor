@@ -22,11 +22,11 @@ class TrainPipeline(object):
         self.buffer_size = 10000
         self.batch_size = 128  # 取1 测试ing
         self.data_buffer = deque(maxlen=self.buffer_size)
-        self.play_batch_size = 1
+        self.play_batch_size = 101
         self.epochs = 5
         self.kl_targ = 0.02
         self.check_freq = 50
-        self.game_batch_num = 1500
+        self.game_batch_num = 1
         self.best_win_ratio = 0.0
         self.pure_mcts_playout_num = 1000
         if init_model:
