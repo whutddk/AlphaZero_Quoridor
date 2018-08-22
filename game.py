@@ -54,8 +54,8 @@ def main():
 	MCTS_Alpha = A_Player(PolicyValueNet().policy_value_fn, c_puct=5, n_playout=30, is_selfplay=0)
 	MCTS_Pure = B_Player(c_puct=5, n_playout=50)  # 50层400秒
 
-	player_types = {1: 'computer', 2: 'human'}
-	players = {1: MCTS_Alpha, 2: human1}
+	player_types = {1: 'human', 2: 'computer'}
+	players = {1: human1, 2: MCTS_Alpha}
 
 			# pygame.quit()
 
@@ -117,7 +117,7 @@ def main():
 						# move_history.append(real_action)
 						
 						states.append(game.state())
-						mcts_probs.append(0.9)
+						mcts_probs.append(0)
 						current_players.append(game.current_player)
 						
 						done, winner = game.step(real_action)
@@ -136,7 +136,7 @@ def main():
 							# move_history.append(real_action)
 							
 							states.append(game.state())
-							mcts_probs.append(0.9)
+							mcts_probs.append(0)
 							current_players.append(game.current_player)
 							
 							done, winner = game.step(real_action)
@@ -153,7 +153,7 @@ def main():
 			print("computer %s thinking..." % str(game.current_player))
 			tic = time.time()
 			# real_action = np.random.choice(valid_actions)
-			real_action,move_probs = players[game.current_player].choose_action(game,temp = 0.8,return_prob = 1)
+			real_action,move_probs = players[game.current_player].choose_action(game,temp = 0.001,return_prob = 1)
 			# move_history.append(real_action)
 			toc = time.time()
 			print("MCTS choose action:", real_action, "  ,spend %s seconds" % str(toc - tic))
