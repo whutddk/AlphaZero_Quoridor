@@ -25,8 +25,8 @@ class TrainPipeline(object):
         self.play_batch_size = 1
         self.epochs = 5
         self.kl_targ = 0.02
-        self.check_freq = 2
-        self.game_batch_num = 101
+        # self.check_freq = 2
+        # self.game_batch_num = 101
         self.best_win_ratio = 0.0
         self.pure_mcts_playout_num = 1000
         if init_model:
@@ -94,19 +94,19 @@ class TrainPipeline(object):
     def run(self):
         """训练"""
         try:
-            for i in range(self.game_batch_num):
-                self.collect_selfplay_data(self.play_batch_size)
-                print("batch i:{}, episode_len:{}".format(i + 1, self.episode_len))
-                if len(self.data_buffer) > self.batch_size:
-                    loss, entropy = self.policy_update()
-                    print("LOSS:",loss)
-                    # 保存loss
-                    with open('loss.txt', 'a') as f:
-                        f.writelines(str(loss) + '\n')
-                if (i + 1) % self.check_freq == 0:
-                    print("current self-play batch: {}".format(i + 1))
-                    # win_ratio = self.policy_evaluate()
-                    self.policy_value_net.save_model('current_policy')  # 保存模型
+            # for i in range(self.game_batch_num):
+            self.collect_selfplay_data(self.play_batch_size)
+            print("batch i:{}, episode_len:{}".format(i + 1, self.episode_len))
+            if len(self.data_buffer) > self.batch_size:
+                loss, entropy = self.policy_update()
+                print("LOSS:",loss)
+                # 保存loss
+                with open('loss.txt', 'a') as f:
+                    f.writelines(str(loss) + '\n')
+                # if (i + 1) % self.check_freq == 0:
+                print("current self-play batch: {}".format(i + 1))
+                # win_ratio = self.policy_evaluate()
+                self.policy_value_net.save_model('current_policy')  # 保存模型
         except KeyboardInterrupt:
             print('\n\rquit')
 

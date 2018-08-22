@@ -10,6 +10,8 @@ import numpy as np
 import time
 import argparse
 
+from train import TrainPipeline
+
 # Define Colors 视图的颜色定义 RGB
 BLACK = (0, 0, 0)
 WHITE = (240, 255, 240)
@@ -324,5 +326,6 @@ def draw_load_screen(screen):
 
 
 if __name__ == '__main__':
+	training_pipeline = TrainPipeline()
 	main()
 
