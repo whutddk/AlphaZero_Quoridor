@@ -25,8 +25,8 @@ class TrainPipeline(object):
         self.play_batch_size = 1
         self.epochs = 5
         self.kl_targ = 0.02
-        self.check_freq = 2
-        self.game_batch_num = 101
+        self.check_freq = 10
+        self.game_batch_num = 10000
         self.best_win_ratio = 0.0
         self.pure_mcts_playout_num = 1000
         if init_model:
