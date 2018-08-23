@@ -30,11 +30,11 @@ class Quoridor(object):
 		self.last_player = -1
 
 		# Initialize Tiles
-		# self.tiles = np.zeros(81) #9*9
+		# self.tiles = np.zeros(81) #9*9   #瓷砖（棋盘板格）
 		self.tiles = np.zeros(49) #7*7
 
 		# Initialize Player Locations
-		self._positions = {
+		self._positions = {					#起始点
 			1: 3,           # 这里要改
 			2: 45           # 这里要改
 		}
@@ -49,9 +49,9 @@ class Quoridor(object):
 		# self.N_ROWS = 9                 
 		# self.N_INTERSECTIONS = 64       
 		self.N_DIRECTIONS = 12			# 可以行动的选择总数
-		self.N_TILES = 49            	# 格子总数    7*7
+		self.N_TILES = 49            	# 瓷砖格子总数    7*7
 		self.N_ROWS = 7                 # 行数
-		self.N_INTERSECTIONS = 36       # 可以插入的挡板数组 6*6
+		self.N_INTERSECTIONS = 36       # 可以插入的挡板数组 6*6 十字路口
 
 		# There are 36 possible intersection
 		# Horizontal Walls - 1
@@ -59,7 +59,7 @@ class Quoridor(object):
 		# Vertical Wall - -1
 		self._intersections = np.zeros(36)		# 初始化挡板数组（四个棋子格为一个点），水平置1 ，垂直为-1
 
-		self._player1_walls_remaining = 10      # 这里要改
+		self._player1_walls_remaining = 10      # 这里要改	到底有几块挡板？
 		self._player2_walls_remaining = 10      # 这里要改
 
 	def state(self):
@@ -281,7 +281,8 @@ class Quoridor(object):
 		VERTICAL = -1
 
 		valid = []
-		# 判断对面棋子是否相邻                                    
+		# 判断对面棋子是否相邻                        
+		# opponent_loc为对手位置 location 为自己位置            
 		opponent_north = location == opponent_loc - 7
 		opponent_south = location == opponent_loc + 7
 		opponent_east = location == opponent_loc - 1
@@ -360,6 +361,7 @@ class Quoridor(object):
 		return valid
 
 	# intersections： 一维数组 长36   current_tile：当前位置，int 0-48
+	# 给定棋子位置，判断其东北 西北 东南 西南有没有挡板，边界也算（0，-1，1）
 	def _get_intersections(self, intersections, current_tile):
 		"""Gets the four intersections for a given tile."""
 		location_row = current_tile // self.N_ROWS
@@ -369,8 +371,8 @@ class Quoridor(object):
 		s_border = current_tile < 7                     # 这里要改
 		w_border = current_tile % 7 == 0
 
-		if n_border:
-			ne_intersection = 1
+		if n_border:		#在北棋盘边界上
+			ne_intersection = 1			# 天然边界
 			if w_border:
 				nw_intersection = -1
 				sw_intersection = -1
