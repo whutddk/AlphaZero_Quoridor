@@ -16,7 +16,7 @@ class TrainPipeline(object):
         # 训练参数
         self.learn_rate = 2e-2
         self.lr_multiplier = 1.0  # 适应性调节学习速率
-        self.temp = 0.99
+        self.temp = 0.8
         self.n_playout = 5
         self.c_puct = 5
         self.buffer_size = 10000
