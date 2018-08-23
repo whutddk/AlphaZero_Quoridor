@@ -300,9 +300,9 @@ class Quoridor(object):
 		# 判断西面没有竖直挡板和对面棋子
 		w = intersections['NW'] != VERTICAL and intersections['SW'] != VERTICAL and not opponent_west
 		# 向北走，两种情况：1，按照上面的判断可走 2，虽到边界但是再走可以获胜
-		if n or (player == 1 and current_row == 6): valid.append(self._DIRECTIONS['N'])
+		if n: valid.append(self._DIRECTIONS['N'])
 		# 同理
-		if s or (player == 2 and current_row == 0): valid.append(self._DIRECTIONS['S'])
+		if s: valid.append(self._DIRECTIONS['S'])
 		if e: valid.append(self._DIRECTIONS['E'])
 		if w: valid.append(self._DIRECTIONS['W'])
 		# 如果北面有对手棋子并且北面没有水平挡板
@@ -310,8 +310,7 @@ class Quoridor(object):
 			# 获取对手周围的挡板信息
 			n_intersections = self._get_intersections(walls, opponent_loc)
 			# 如果对手北面没有水平挡板，或者 玩家1在第八行，也就是倒数第二行
-			if n_intersections['NW'] != HORIZONTAL and n_intersections['NE'] != HORIZONTAL \
-					or (current_row == 5 and player == 1):
+			if n_intersections['NW'] != HORIZONTAL and n_intersections['NE'] != HORIZONTAL:
 				# 可以走向北两步，也就是NN
 				valid.append(self._DIRECTIONS['NN'])
 			# 如果对手东-北面没有竖直挡板，并且自己东-北面没有竖直挡板，可以走两步NE
@@ -324,8 +323,7 @@ class Quoridor(object):
 
 		elif opponent_south and intersections['SE'] != HORIZONTAL and intersections['SW'] != HORIZONTAL:
 			s_intersections = self._get_intersections(walls, opponent_loc)
-			if s_intersections['SW'] != HORIZONTAL and s_intersections['SE'] != HORIZONTAL \
-					or (current_row == 1 and player == 2):
+			if s_intersections['SW'] != HORIZONTAL and s_intersections['SE'] != HORIZONTAL:
 				valid.append(self._DIRECTIONS['SS'])
 
 			if s_intersections['SE'] != VERTICAL and intersections['SE'] != VERTICAL:
@@ -438,7 +436,7 @@ class Quoridor(object):
 
 		return valid
 
-	def _validate_horizontal(self, ix):
+	def _validate_horizontal(self, ix):		#根据旁边的挡板判断当前十字路口能否放水平挡板
 		column = ix % 6
 
 		if self._intersections[ix] != 0:
@@ -467,7 +465,7 @@ class Quoridor(object):
 			if self._intersections[ix + 6] == -1:
 				return False
 
-		return not self._blocks_path(ix, self.VERTICAL)
+		return not self._blocks_path(ix, self.VERTICAL)	# 困死路径
 
 	def _blocks_path(self, wall_location, orientation):
 		player1_target = 6
