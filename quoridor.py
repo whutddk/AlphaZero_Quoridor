@@ -392,11 +392,11 @@ class Quoridor(object):
 			elif e_border:
 				se_intersection = -1
 				ne_intersection = -1
-				nw_intersection = ne_intersection = intersections[current_tile - location_row - 1]
+				nw_intersection = intersections[current_tile - location_row - 1]
 			else:
 				se_intersection = 1
 				ne_intersection = intersections[current_tile - location_row]
-				nw_intersection = ne_intersection = intersections[current_tile - location_row - 1]
+				nw_intersection = intersections[current_tile - location_row - 1]
 
 
 		# West but not north or south
