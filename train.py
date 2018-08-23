@@ -20,12 +20,12 @@ class TrainPipeline(object):
         self.n_playout = 5
         self.c_puct = 5
         self.buffer_size = 10000
-        self.batch_size = 1  # 取1 测试ing
+        self.batch_size = 5  # 取1 测试ing
         self.data_buffer = deque(maxlen=self.buffer_size)
         self.play_batch_size = 1
         self.epochs = 5
         self.kl_targ = 0.02
-        self.check_freq = 1
+        self.check_freq = 5
         self.game_batch_num = 10000
         self.best_win_ratio = 0.0
         self.pure_mcts_playout_num = 1000
